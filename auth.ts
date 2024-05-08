@@ -15,7 +15,7 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           console.log(email, password)
-          const user = await getUserByEmail(email);
+          const user: any = await getUserByEmail(email);
           const passwordsMatch = await bcrypt.compare(password, user.password);
  
           if (passwordsMatch) return user;
@@ -31,7 +31,6 @@ export const { auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async jwt({token}) {
-      console.log(token)
       return token
     },
     async session({token, session}) {
