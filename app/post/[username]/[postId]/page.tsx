@@ -48,7 +48,7 @@ export default async function page({ params }: { params: { username: string, pos
         </div>
       </div>
       {user &&
-        <InteractionSection liked={ifUserLiked} userId={!!user?.user?.id} postId={data?.id} />
+        <InteractionSection liked={ifUserLiked} userId={user?.user?.id} postId={data?.id} />
       }
       {
         user &&
