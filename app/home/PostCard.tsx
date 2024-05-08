@@ -5,12 +5,12 @@ import { HandThumbUpIcon as Liked } from '@heroicons/react/24/solid'
 
 type PostCardType = {
   id: string,
-  image: string,
+  image: any,
   name: string,
   content: string,
   username: string,
   user: boolean,
-  ifLiked: boolean
+  ifLiked: any
 }
 
 export default function PostCard({ id, image, name, username, content, user, ifLiked }: PostCardType) {

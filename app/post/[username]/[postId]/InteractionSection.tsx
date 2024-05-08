@@ -6,7 +6,7 @@ import { HandThumbUpIcon as Liked } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
-export default function InteractionSection({ liked, userId, postId }: { liked: boolean, userId: string, postId: string }) {
+export default function InteractionSection({ liked, userId, postId }: { liked?: boolean, userId: any, postId: any}) {
   const router = useRouter()
 
   const handleOnClick = async () => {

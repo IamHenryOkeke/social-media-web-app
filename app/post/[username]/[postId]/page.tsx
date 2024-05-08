@@ -12,6 +12,7 @@ export default async function page({ params }: { params: { username: string, pos
   const user = await auth()
   const data = await getPostById(params.postId)
   const comments = await getCommentsByPostId(params.postId)
+  const ifUserLiked = !!(data?.likes.find((like) => like.userId === user?.user?.id))
   console.log(data)
   console.log(comments)
   return (
@@ -26,7 +27,7 @@ export default async function page({ params }: { params: { username: string, pos
         <div className='flex gap-2'>
           <div className='w-[15%]'>
             <Link href={`/profile/${params.username}`}>
-              <Image src={data?.author.image} alt='Profile Picture' width={300} height={180} className='w-10 h-10 rounded-full' />
+              <Image src={data?.author.image || ''} alt='Profile Picture' width={300} height={180} className='w-10 h-10 rounded-full' />
             </Link>
           </div>
           <div className='w-full self-start'>
@@ -47,7 +48,7 @@ export default async function page({ params }: { params: { username: string, pos
         </div>
       </div>
       {user &&
-        <InteractionSection liked={data?.likes.find((like) => like.userId === user?.user?.id)} userId={user?.user?.id} postId={data?.id} />
+        <InteractionSection liked={ifUserLiked} userId={!!user?.user?.id} postId={data?.id} />
       }
       {
         user &&

@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { createPost } from '../lib/actions'
 import { z } from 'zod'
 
-export default function CreatePost({ id }: { id: string }) {
+export default function CreatePost({ id }: { id: any }) {
   const router = useRouter()
   const [post, setPost] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -15,7 +15,7 @@ export default function CreatePost({ id }: { id: string }) {
     e.preventDefault()
     setLoading(true)
 
-    const res = z.object({
+    const res: any = z.object({
       post: z
         .string()
         .min(3, { message: 'Post must be at least 3 characters long.' })

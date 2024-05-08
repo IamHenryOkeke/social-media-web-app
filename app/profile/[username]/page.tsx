@@ -17,7 +17,7 @@ export default async function Profile({ params }: { params: { username: string }
       </h2>
       <div className='flex flex-col items-center gap-2'>
         <div className='relative'>
-          <Image className='h-20 w-20 rounded-full' src={userData?.image} alt="User Avatar" width={300} height={100} />
+          <Image className='h-20 w-20 rounded-full' src={userData?.image || ''} alt="User Avatar" width={300} height={100} />
           {
             userData?.id === user?.user?.id &&
             <Link href={`./${params.username}/update`}>

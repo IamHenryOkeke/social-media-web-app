@@ -1,10 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ChatBubbleOvalLeftEllipsisIcon, HandThumbUpIcon } from '@heroicons/react/24/outline'
 
 type CommentCardType = {
   id: string,
-  image: string,
+  image: any,
   name: string,
   content: string,
   username: string,

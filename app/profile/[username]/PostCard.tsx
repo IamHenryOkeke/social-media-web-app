@@ -4,12 +4,12 @@ import InteractionSection from "./InteractionSection"
 
 type PostCardType = {
   id: string,
-  image: string,
+  image: any,
   name: string,
   content: string,
   username: string,
   user: any,
-  ifLiked: boolean
+  ifLiked: any
 }
 
 export default function PostCard({ id, image, name, username, content, user, ifLiked }: PostCardType) {

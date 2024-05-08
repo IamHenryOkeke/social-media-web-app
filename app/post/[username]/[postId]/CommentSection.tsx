@@ -6,7 +6,7 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { z } from "zod"
 
-export default function CommentSection({ userId, postId }: { userId: string, postId: string }) {
+export default function CommentSection({ userId, postId }: { userId: any, postId: any }) {
   const [comment, setComment] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
@@ -14,7 +14,7 @@ export default function CommentSection({ userId, postId }: { userId: string, pos
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    const res = z.object({
+    const res: any = z.object({
       comment: z
         .string()
         .min(3, { message: 'Comment must be at least 3 characters long.' })

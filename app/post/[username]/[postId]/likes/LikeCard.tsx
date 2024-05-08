@@ -2,9 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 
 type PostCardType = {
-  image: string,
   name: string,
   username: string,
+  image: any
 }
 
 export default function LikeCard({ image, name, username }: PostCardType) {

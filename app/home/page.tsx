@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const user = await auth()
+  const user: any = await auth()
   const userDetail = await getUserByEmail(user?.user?.email)
   console.log(userDetail)
   const posts = await getPosts()
