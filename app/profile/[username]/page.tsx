@@ -18,28 +18,33 @@ export default async function Profile({ params }: { params: { username: string }
       <div className='flex flex-col items-center gap-2'>
         <div className='relative'>
           <Image className='h-20 w-20 rounded-full' src={userData?.image || ''} alt="User Avatar" width={300} height={100} />
-          {
+          {/* {
             userData?.id === user?.user?.id &&
             <Link href={`./${params.username}/update`}>
               <PencilSquareIcon className='absolute h-4 w-4 bottom-0 -right-3 cursor-pointer' />
             </Link>
-          }
+          } */}
         </div>
         <p className='text-gray-400'>@{userData?.username}</p>
         <p className='font-medium -my-2'>{userData?.email}</p>
         <p className='text-gray-200'>{userData?.bio}</p>
         {
           userData?.id === user?.user?.id &&
-          <form
-            action={async () => {
-              'use server';
-              await signOut();
-            }}
-          >
-            <button className="bg-gray-500 px-6 py-2 rounded-md font-medium text-sm">
-              Sign Out
-            </button>
-          </form>
+          <div className='flex gap-3'>
+            <Link href={`./${params.username}/update`} className="bg-gray-500 px-6 py-2 rounded-md font-medium text-sm">
+              Edit Profile
+            </Link>
+            <form
+              action={async () => {
+                'use server';
+                await signOut({ redirectTo: '/home' });
+              }}
+            >
+              <button className="bg-gray-500 px-6 py-2 rounded-md font-medium text-sm">
+                Sign Out
+              </button>
+            </form>
+          </div>
         }
       </div>
       <div className='py-5'>

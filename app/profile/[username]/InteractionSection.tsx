@@ -6,9 +6,8 @@ import { HandThumbUpIcon as Liked } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
-export default function InteractionSection({ ifLiked, userId, postId }: { ifLiked: boolean, userId: string, postId: string }) {
+export default function InteractionSection({ ifLiked, userId, postId, authorId }: { ifLiked: boolean, userId: string, postId: string, authorId: string }) {
   const router = useRouter()
-
   const handleOnClick = async () => {
     const data = await toggleLikePost(userId, postId)
     console.log(data)
@@ -40,7 +39,9 @@ export default function InteractionSection({ ifLiked, userId, postId }: { ifLike
         }
       </button>
       <button onClick={handleDelete}>
-        <TrashIcon title='Delete post' className='text-white size-5 font-bold' />
+        {
+          userId === authorId && <TrashIcon title='Delete post' className='text-white size-5 font-bold' />
+        }
       </button>
     </div>
   )

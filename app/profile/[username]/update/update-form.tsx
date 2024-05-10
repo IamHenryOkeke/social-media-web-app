@@ -22,12 +22,6 @@ export default function UpdateForm({ userDetails}: { userDetails:  any}) {
       {state?.errors?.username && <p className="text-sm text-red-500 self-start">{state.errors.username}</p>}
       
       <div className="w-full flex flex-col items-center gap-2">
-        <label className="self-start font-semibold" htmlFor="image">Display Picture</label>
-        <input className="border-gray-500 bg-transparent w-full p-3 border rounded-md" type="file" id="image" name="image" placeholder="Name" />
-      </div>
-      {state?.errors?.image && <p className="text-red-500 self-start">{state.errors.image}</p>}
-
-      <div className="w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="password">Bio</label>
         <textarea defaultValue={userDetails.bio} className="border-gray-500 bg-transparent  focus:outline-none w-full p-3 border rounded-md" id="bio" name="bio" />
       </div>

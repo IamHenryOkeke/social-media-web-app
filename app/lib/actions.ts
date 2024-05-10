@@ -199,7 +199,6 @@ type UpdateDataFormState =
       errors?: {
         name?: string[]
         username?: string[]
-        image?: string[]
         bio?: string[]
       }
       message?: string
@@ -213,8 +212,7 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
    const validatedFields = UpdateDataFormSchema.safeParse({
     name: formData.get('name'),
     username: formData.get('username'),
-    bio: formData.get('bio'),
-    image: formData.get('image')
+    bio: formData.get('bio')
   })
  
   // If any form fields are invalid, return early
@@ -228,21 +226,11 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
 
   const formattedUsername = username.replace(/\s/g, '_').toLowerCase()
   
-  const existingWithUsername = await getUserByUsername(formattedUsername);
+  const existingUserWithUsername = await getUserByUsername(formattedUsername);
 
-  if(existingWithUsername){
-    return { error: "Username already in use! Please use another..."};
+  if(existingUserWithUsername && existingUserWithUsername?.id !== id) {
+    return { error: "Username already in use! Please use another..."};    
   }
-
-  const reqBody = new FormData()
-  reqBody.append('file', validatedFields.data.image)
-  reqBody.append('upload_preset', 'henryDB')
-
-  const res = await fetch('https://api.cloudinary.com/v1_1/dfquzvx4n/image/upload',{
-    method: 'POST',
-    body: reqBody
-  })
-  const result: {url: string} = await res.json()
 
   const user = await db.user.update({
     where: {
@@ -251,8 +239,7 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
     data: {
       name: name,
       username: formattedUsername,
-      bio: bio,
-      image: result.url
+      bio: bio
     }
   })
 
@@ -260,7 +247,7 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
 
   if (!user) {
     return {
-      message: 'An error occurred while creating your account.',
+      message: 'An error occurred while updating your account... Please try again',
     }
   }
   redirect(`/profile/${formattedUsername}`)
