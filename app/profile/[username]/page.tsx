@@ -5,6 +5,7 @@ import { getUserByUsername, getUserPost } from '../../lib/data';
 import PostCard from './PostCard';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import PreviousPageButton from '@/app/ui/PreviousPageButton';
 
 export default async function Profile({ params }: { params: { username: string } }) {
   const user = await auth()
@@ -12,9 +13,12 @@ export default async function Profile({ params }: { params: { username: string }
   const userPosts = await getUserPost(params.username)
   return (
     <main>
-      <h2 className='my-5 font-bold text-center text-xl'>
-        User Profile
-      </h2>
+      <div className='p-4 flex gap-3 items-center'>
+        <PreviousPageButton />
+        <h3 className='font-bold'>
+          User Profile
+        </h3>
+      </div>
       <div className='flex flex-col items-center gap-2'>
         <div className='relative'>
           <Image className='h-20 w-20 rounded-full' src={userData?.image || ''} alt="User Avatar" width={300} height={100} />
