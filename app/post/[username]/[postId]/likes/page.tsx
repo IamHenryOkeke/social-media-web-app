@@ -1,9 +1,14 @@
+import { Metadata } from "next"
 import { getLikesByPostId } from '@/app/lib/data';
 import PreviousPageButton from '@/app/ui/PreviousPageButton';
 import React from 'react'
 import LikeCard from './LikeCard';
 import { auth } from '@/auth';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Users who liked this post",
+}
 
 export default async function page({ params }: { params: { username: string, postId: string } }) {
   const user = await auth()

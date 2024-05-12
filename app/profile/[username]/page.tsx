@@ -1,11 +1,17 @@
 import { auth, signOut } from '@/auth';
 import Image from 'next/image';
-import React from 'react'
 import { getUserByUsername, getUserPost } from '../../lib/data';
 import PostCard from './PostCard';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import PreviousPageButton from '@/app/ui/PreviousPageButton';
+
+export async function generateMetadata({ params }: { params: { username: string } }) {
+  const data = await getUserByUsername(params.username)
+  return {
+    title: `${data?.username}'s profile`,
+  }
+}
 
 export default async function Profile({ params }: { params: { username: string } }) {
   const user = await auth()
@@ -53,13 +59,18 @@ export default async function Profile({ params }: { params: { username: string }
       </div>
       <div className='py-5'>
         <p className='font-bold text-center'>{userData?.name}&apos;s Posts</p>
-        <div className='my-2 border-y-2 border-gray-600 divide-y-2 divide-gray-600'>
-          {
-            userPosts?.map((post) => (
-              <PostCard key={post.id} id={post.id} ifLiked={post?.likes.find((like) => like.userId === user?.user?.id)} name={post.author.name} user={user} content={post.content} image={post.author.image} username={post.author.username} />
-            ))
-          }
-        </div>
+
+        {
+          !(userPosts?.length === 0) ?
+            <div className='my-2 border-y-2 border-gray-600 divide-y-2 divide-gray-600'>
+              {
+                userPosts?.map((post) => (
+                  <PostCard key={post.id} id={post.id} ifLiked={post?.likes.find((like) => like.userId === user?.user?.id)} name={post.author.name} user={user} content={post.content} image={post.author.image} username={post.author.username} />
+                ))
+              }
+            </div> :
+            <p className='text-center my-2 p-4 border-t-2 border-gray-600'>{user?.user?.name} has no posts yet.</p>
+        }
       </div>
     </main>
   )

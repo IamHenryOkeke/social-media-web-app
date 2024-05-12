@@ -1,7 +1,11 @@
 import React from 'react'
 import { SignupForm } from './sign-up-form'
 import Link from 'next/link'
+import { Metadata } from "next"
 
+export const metadata: Metadata = {
+  title: "Sign Up",
+}
 export default function SignUp() {
   return (
     <div className='h-screen flex flex-col items-center justify-center'>

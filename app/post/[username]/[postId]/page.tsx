@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import { getCommentsByPostId, getPostById } from '@/app/lib/data'
 import PreviousPageButton from '@/app/ui/PreviousPageButton'
 import { auth } from '@/auth'
@@ -8,13 +9,19 @@ import CommentSection from './CommentSection'
 import CommentCard from './CommentCard'
 import InteractionSection from './InteractionSection'
 
+export async function generateMetadata({ params }: { params: { username: string, postId: string } }) {
+const data = await getPostById(params.postId)
+  return {
+    title: data?.content,
+  }
+}
+
 export default async function page({ params }: { params: { username: string, postId: string } }) {
   const user = await auth()
   const data = await getPostById(params.postId)
   const comments = await getCommentsByPostId(params.postId)
   const ifUserLiked = !!(data?.likes.find((like) => like.userId === user?.user?.id))
-  console.log(data)
-  console.log(comments)
+
   return (
     <main>
       <div className='p-4 flex gap-3 items-center'>

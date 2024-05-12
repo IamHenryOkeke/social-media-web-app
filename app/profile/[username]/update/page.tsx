@@ -3,6 +3,11 @@ import UpdateForm from './update-form'
 import { auth } from '@/auth'
 import { getUserByEmail } from '@/app/lib/data'
 import PreviousPageButton from '@/app/ui/PreviousPageButton'
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Update Profile",
+}
 
 export default async function page() {
   const user: any = await auth()
