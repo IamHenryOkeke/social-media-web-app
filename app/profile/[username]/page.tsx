@@ -65,7 +65,7 @@ export default async function Profile({ params }: { params: { username: string }
             <div className='my-2 border-y-2 border-gray-600 divide-y-2 divide-gray-600'>
               {
                 userPosts?.map((post) => (
-                  <PostCard key={post.id} id={post.id} ifLiked={post?.likes.find((like) => like.userId === user?.user?.id)} name={post.author.name} user={user} content={post.content} image={post.author.image} username={post.author.username} />
+                  <PostCard key={post.id} id={post.id} authorId={post.authorId} ifLiked={post?.likes.find((like) => like.userId === user?.user?.id)} name={post.author.name} user={user} content={post.content} image={post.author.image} username={post.author.username} />
                 ))
               }
             </div> :

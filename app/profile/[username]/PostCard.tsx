@@ -4,6 +4,7 @@ import InteractionSection from "./InteractionSection"
 
 type PostCardType = {
   id: string,
+  authorId: string,
   image: any,
   name: string,
   content: string,
@@ -12,7 +13,7 @@ type PostCardType = {
   ifLiked: any
 }
 
-export default function PostCard({ id, image, name, username, content, user, ifLiked }: PostCardType) {
+export default function PostCard({ id, authorId, image, name, username, content, user, ifLiked }: PostCardType) {
   return (
     <div className='p-4 flex gap-2'>
       <div className='w-[15%]'>
@@ -31,7 +32,7 @@ export default function PostCard({ id, image, name, username, content, user, ifL
           </p>
         </Link>
         {user &&
-          <InteractionSection ifLiked={ifLiked} userId={user.user.id} postId={id}/>
+          <InteractionSection authorId={authorId} ifLiked={ifLiked} userId={user.user.id} postId={id}/>
         }
       </div>
     </div>

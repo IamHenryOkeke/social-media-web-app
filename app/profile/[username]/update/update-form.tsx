@@ -28,7 +28,7 @@ export default function UpdateForm({ userDetails}: { userDetails:  any}) {
       {state?.errors?.bio && <p className="text-sm text-red-500 self-start">{state.errors.bio}</p>}
 
       <UpdateButton />
-      {state?.error && <p className="text-red-500 self-start">{state?.error}</p>}
+      {state?.error && <p className="text-red-500">{state?.error}</p>}
     </form>
   )
 }
