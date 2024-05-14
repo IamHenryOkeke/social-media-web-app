@@ -2,6 +2,7 @@
 
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '../lib/actions';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -17,15 +18,15 @@ export default function LoginForm() {
         <label className="self-start font-semibold" htmlFor="password">Password</label>
         <input className="w-full text-black focus:outline-none p-3 border border-gray-700 rounded-md" id="password" name="password" type="password" />
       </div>
-
+      <Link href='/forgot-password' className='self-end text-sm pt-1'>
+        Forgot Password
+      </Link>
       <LoginButton />
-      <div className="flex h-8 items-end space-x-1">
-        {errorMessage && (
-          <>
-            <p className="text-sm text-red-500">{errorMessage}</p>
-          </>
-        )}
-      </div>
+      {errorMessage && (
+        <>
+          <p className="text-sm text-red-500 my-2">{errorMessage}</p>
+        </>
+      )}
     </form>
   );
 }

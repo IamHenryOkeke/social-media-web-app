@@ -29,6 +29,13 @@ export const { auth, signIn, signOut } = NextAuth({
     strategy: 'jwt'
   },
   callbacks: {
+    async signIn({user, account}) {
+      const existingUser:any = await getUserByEmail(user?.email)
+
+      if (!existingUser?.emailVerifed) return false
+
+      return true
+    },
     async jwt({token}) {
       return token
     },

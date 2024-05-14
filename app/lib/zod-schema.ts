@@ -45,3 +45,8 @@ export const UpdateDataFormSchema = z.object({
     .min(3, { message: 'Bio must be at least 3 characters long' })
     .trim(),
 })
+
+export const ResetPasswordFormSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+
+})

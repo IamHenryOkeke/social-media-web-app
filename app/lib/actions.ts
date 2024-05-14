@@ -7,15 +7,31 @@ import { getUserByEmail, getUserByUsername } from './data';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
-import { SignupFormSchema, UpdateDataFormSchema } from './zod-schema';
+import { ResetPasswordFormSchema, SignupFormSchema, UpdateDataFormSchema } from './zod-schema';
+import { generateVerificationToken } from './tokens';
+import { getVerificationTokenByToken } from './verification-token';
 
+export async function authenticate(prevState: string | undefined,formData: FormData,) {
+  const email: any =  formData.get('email')
+  const password =  formData.get('password')
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
+  const existingUser = await getUserByEmail(email.toLowerCase())
+  
+  if (!existingUser) {
+    return "Email does not exist"
+  }
+
+  if(!existingUser.emailVerifed) {
+    const verificationToken = await generateVerificationToken(existingUser.email)
+    // await sendVerification(verificationToken.email, verificationToken.token)
+    redirect(`/verify?token=${verificationToken.token}`);
+  }
+
   try {
-    await signIn('credentials', formData);
+    await signIn('credentials', {
+      email,
+      password,
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -201,7 +217,6 @@ type UpdateDataFormState =
         username?: string[]
         bio?: string[]
       }
-      message?: string
     }
   | undefined
 
@@ -251,4 +266,59 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
     }
   }
   redirect(`/profile/${formattedUsername}`)
+}
+
+// type ResetPasswordFormState =
+//   | {
+//       errors?: {
+//         email?: string[]
+//       }
+//       message?: string
+//     }
+//   | undefined
+
+// export async function resetPassword (state: ResetPasswordFormState, formData: FormData) {
+//    const validatedFields = ResetPasswordFormSchema.safeParse({
+//     email: formData.get('email')
+//   })
+
+//   console.log(validatedFields)
+ 
+//   // If any form fields are invalid, return early
+//   if (!validatedFields.success) {
+//     return {
+//       errors: validatedFields.error.flatten().fieldErrors,
+//     }
+//   }
+// }
+
+export const verifyEmailByToken = async(token: string) => {
+  const existingToken = await getVerificationTokenByToken(token)
+
+  if(!existingToken) {
+    throw new Error('Token does not exist')
+  }
+
+  const hasExpired = new Date(existingToken.expires) < new Date()
+
+  if(hasExpired) {
+    throw new Error('Token has expired')
+  }
+
+  const existingUser = await getUserByEmail(existingToken.email)
+
+  if(!existingUser) {
+    throw new Error('Email does not exist') 
+  }
+
+  await db.user.update({
+    where: {
+      email: existingUser.email
+    },
+    data: {
+      emailVerifed: true
+    }
+  })
+
+  return 'Verification successful'
 }
