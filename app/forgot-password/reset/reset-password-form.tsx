@@ -45,7 +45,7 @@ export default function ResetPasswordForm() {
   }
 
   return (
-    <form onSubmit={handleOnSumbit} className="mx-auto w-[90%] md:w-3/5 lg:w-2/5 flex flex-col items-center justify-center gap-2">
+    <form onSubmit={handleOnSumbit} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
       <div className="w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="password">Password</label>
         <input value={password} onChange={(e: any) => setPassword(e.target.value)} className="border-gray-500 bg-transparent focus:outline-none w-full p-3 border rounded-md" id="password" name="confirm_password" type='password' />

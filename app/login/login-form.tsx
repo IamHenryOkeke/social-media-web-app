@@ -8,15 +8,15 @@ export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
   return (
-    <form action={dispatch} className="mx-auto w-[90%] md:w-3/5 lg:w-2/5 flex flex-col items-center justify-center gap-2">
+    <form action={dispatch} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
       <div className="w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="email">Email</label>
-        <input className="w-full text-black focus:outline-none p-3 border border-gray-700 rounded-md" id="email" name="email" type="email" placeholder="Email" />
+        <input className="w-full focus:outline-none p-3 border border-gray-500 bg-transparent rounded-md" id="email" name="email" type="email" placeholder="Email" />
       </div>
 
       <div className="w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="password">Password</label>
-        <input className="w-full text-black focus:outline-none p-3 border border-gray-700 rounded-md" id="password" name="password" type="password" />
+        <input className="w-full border border-gray-500 bg-transparent focus:outline-none p-3 rounded-md" id="password" name="password" type="password" placeholder="Enter your password" />
       </div>
       <Link href='/forgot-password' className='self-end text-sm pt-1'>
         Forgot Password

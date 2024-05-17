@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className='h-screen flex flex-col items-center justify-center'>
+    <div className='h-screen md:border-x-2 border-gray-600 mx-auto md:w-3/5 lg:w-2/5 flex flex-col items-center justify-center'>
       <h1 className='my-4 font-bold text-2xl'>Please Sign In To continue</h1>
       <LoginForm/>
       <Link href='/signup'>

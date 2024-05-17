@@ -42,7 +42,7 @@ export default function CreatePost({ id }: { id: any }) {
     }
   }
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-[90%] md:w-3/5 lg:w-2/5 flex flex-col items-center justify-center gap-2">
+    <form onSubmit={handleSubmit} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
       <textarea value={post} onChange={(e) => setPost(e.target.value)} name="" id="textfield" placeholder="Post your comment" className="w-full h-40 border border-gray-500 bg-transparent focus:outline-none p-3 resize-none rounded" minLength={3}></textarea>
       <div className='text-xs font-semibold w-full self-end flex justify-between'>
         <p className={`${post.length > 250 ? 'text-red-400' : ''}`}>{post.length > 250 ? 'Max post length exceeded' : ''}</p>

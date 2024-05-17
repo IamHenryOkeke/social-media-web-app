@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function page() {
   const session = await auth()
   return (
-    <div className=''>
+    <div className='h-screen md:border-x-2 border-gray-600 mx-auto md:w-3/5 lg:w-2/5'>
       <div className='p-4 flex gap-3 items-center'>
         <PreviousPageButton />
         <h3 className='font-bold'>

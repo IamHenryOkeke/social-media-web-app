@@ -8,7 +8,7 @@ export default function UpdateForm({ userDetails}: { userDetails:  any}) {
   const [state, action] = useFormState(updateData, undefined)
 
   return (
-    <form action={action} className="mx-auto w-[90%] md:w-3/5 lg:w-2/5 flex flex-col items-center justify-center gap-2">
+    <form action={action} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
       <div className="w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="name">Name</label>
         <input defaultValue={userDetails.name} className="border-gray-500 bg-transparent focus:outline-none w-full p-3 border rounded-md" id="name" name="name" placeholder="Name" />
