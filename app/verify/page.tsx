@@ -1,39 +1,23 @@
-'use client'
 
-import React, { useState } from 'react'
-import { redirect, useRouter, useSearchParams } from 'next/navigation'
-import toast from 'react-hot-toast'
-import { verifyEmailByToken } from '../lib/actions'
+import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
+import VerifyForm from './verify-form'
+import { Metadata } from 'next'
 
-export default function Verify() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token')
+export const metadata: Metadata = {
+  title: 'Verify Email'
+}
 
-  if (!token) {
-    redirect('/login')
-  }
+export default async function Verify() {
+  const user = await auth()
 
-  const handleVerification = async () => {
-    setLoading(true)
-    try {
-      const res = await verifyEmailByToken(token)
-      toast.success(res)
-      router.push('/login')
-    } catch (error: any) {
-      toast.error(error.message)
-      router.push('/login')
-    }
+  if (user) {
+    redirect('/home')
   }
 
   return (
     <div className="p-5 lg:p-11 flex flex-col gap-5 md:gap-10">
-      <div className="py-2 lg:px-14 lg:w-3/5 lg:mx-auto">
-        <button onClick={handleVerification} className="w-full my-2 p-3 rounded-md font-bold hover:bg-slate-500/80 bg-slate-500" aria-disabled={loading} type="submit">
-          {loading ? "Verifying email..." : "Verify email"}
-        </button>
-      </div>
+      <VerifyForm />
     </div>
   )
 }

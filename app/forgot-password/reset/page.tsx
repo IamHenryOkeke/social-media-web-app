@@ -1,14 +1,15 @@
-import { Metadata } from 'next'
+
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import ForgotPasswordForm from './forgot-password-form'
-import PreviousPageButton from '../ui/PreviousPageButton'
+import { Metadata } from 'next'
+import ResetPasswordForm from './reset-password-form'
+import PreviousPageButton from '@/app/ui/PreviousPageButton'
 
 export const metadata: Metadata = {
-  title: 'Forgot Password'
+  title: 'Reset Password'
 }
 
-export default async function ForgotPassword() {
+export default async function Verify() {
   const user = await auth()
 
   if (user) {
@@ -23,7 +24,7 @@ export default async function ForgotPassword() {
           Reset Password
         </h3>
       </div>
-      <ForgotPasswordForm />
+      <ResetPasswordForm />
     </div>
   )
 }

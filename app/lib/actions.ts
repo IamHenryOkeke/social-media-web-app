@@ -7,7 +7,7 @@ import { getUserByEmail, getUserByUsername } from './data';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
-import { ResetPasswordFormSchema, SignupFormSchema, UpdateDataFormSchema } from './zod-schema';
+import { SendResetEmailSchema, SignupFormSchema, UpdateDataFormSchema } from './zod-schema';
 import { generateVerificationToken } from './tokens';
 import { getVerificationTokenByToken } from './verification-token';
 
@@ -268,31 +268,73 @@ export async function updateData (state: UpdateDataFormState, formData: FormData
   redirect(`/profile/${formattedUsername}`)
 }
 
-// type ResetPasswordFormState =
-//   | {
-//       errors?: {
-//         email?: string[]
-//       }
-//       message?: string
-//     }
-//   | undefined
+type ResetPasswordFormState =
+  | {
+      errors?: {
+        email?: string[]
+      }
+      message?: string
+    }
+  | undefined
 
-// export async function resetPassword (state: ResetPasswordFormState, formData: FormData) {
-//    const validatedFields = ResetPasswordFormSchema.safeParse({
-//     email: formData.get('email')
-//   })
+  
+  export const verifyEmailWithToken = async(token: string) => {
+  const existingToken = await getVerificationTokenByToken(token)
 
-//   console.log(validatedFields)
- 
-//   // If any form fields are invalid, return early
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//     }
-//   }
-// }
+  if(!existingToken) {
+    throw new Error('Token does not exist')
+  }
 
-export const verifyEmailByToken = async(token: string) => {
+  const hasExpired = new Date(existingToken.expires) < new Date()
+
+  if(hasExpired) {
+    throw new Error('Token has expired')
+  }
+
+  const existingUser = await getUserByEmail(existingToken.email)
+
+  if(!existingUser) {
+    throw new Error('Email does not exist') 
+  }
+  
+  await db.user.update({
+    where: {
+      email: existingUser.email
+    },
+    data: {
+      emailVerifed: true
+    }
+  })
+  
+  return 'Verification successful'
+}
+
+export async function sendResetMail (state: ResetPasswordFormState, formData: FormData) {
+   const validatedFields = SendResetEmailSchema.safeParse({
+    email: formData.get('email')
+  })
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const { email } = validatedFields.data
+  console.log(email.toLowerCase())
+  const existingUser = await getUserByEmail(email.toLowerCase())
+  
+  if (!existingUser) {
+    return {
+      error: "Email does not exist"
+    }
+  }
+
+  const verificationToken = await generateVerificationToken(existingUser.email)
+  redirect(`/forgot-password/reset?token=${verificationToken.token}`);
+}
+
+export const resetPasswordWithToken = async(token: string, password: string) => {
   const existingToken = await getVerificationTokenByToken(token)
 
   if(!existingToken) {
@@ -311,14 +353,16 @@ export const verifyEmailByToken = async(token: string) => {
     throw new Error('Email does not exist') 
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10)
+
   await db.user.update({
     where: {
       email: existingUser.email
     },
     data: {
-      emailVerifed: true
+      password: hashedPassword
     }
   })
 
-  return 'Verification successful'
+  return 'Password reset successful'
 }

@@ -46,7 +46,21 @@ export const UpdateDataFormSchema = z.object({
     .trim(),
 })
 
-export const ResetPasswordFormSchema = z.object({
+export const SendResetEmailSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-
 })
+
+export const ResetPasswordFormSchema = z.object({
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long' })
+    .trim(),
+  confirm_password: z
+    .string()
+    .trim()
+}).refine((values) => values.password === values.confirm_password, {
+    message: "Passwords must match!",
+    path: ["confirm_password"],
+  }
+)
+

@@ -2,7 +2,7 @@
 
 import { createComment } from "@/app/lib/actions"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import toast from "react-hot-toast"
 import { z } from "zod"
 
@@ -11,7 +11,7 @@ export default function CommentSection({ userId, postId }: { userId: any, postId
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
     const res: any = z.object({
