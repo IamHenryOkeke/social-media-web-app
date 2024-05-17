@@ -2,14 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 
 type CommentCardType = {
-  id: string,
   image: any,
   name: string,
   content: string,
   username: string,
 }
 
-export default function CommentCard({ id, image, name, username, content }: CommentCardType) {
+export default function CommentCard({ image, name, username, content }: CommentCardType) {
   return (
     <div className='p-4 flex gap-2'>
       <div className='w-[15%]'>
@@ -22,11 +21,9 @@ export default function CommentCard({ id, image, name, username, content }: Comm
           <span className='font-bold'>{name}</span>
           <span>@{username}</span>
         </div>
-        <Link href={`/post/${username}/${id}`}>
-          <p className='text-sm my-2'>
-            {content}
-          </p>
-        </Link>
+        <p className='text-sm my-2'>
+          {content}
+        </p>
       </div>
     </div>
   )

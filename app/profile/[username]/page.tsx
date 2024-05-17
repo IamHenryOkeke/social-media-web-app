@@ -69,7 +69,7 @@ export default async function Profile({ params }: { params: { username: string }
                 ))
               }
             </div> :
-            <p className='text-center my-2 p-4 border-t-2 border-gray-600'>{user?.user?.name} has no posts yet.</p>
+            <p className='text-center my-2 p-4 border-t-2 border-gray-600'>{userData?.name} has no posts yet.</p>
         }
       </div>
     </main>
