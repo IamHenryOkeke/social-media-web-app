@@ -117,7 +117,8 @@ export async function signUp (state: FormState, formData: FormData) {
       message: 'An error occurred while creating your account.',
     }
   }
-  redirect('/login');
+  const verificationToken = await generateVerificationToken(user.email)
+  redirect(`/verify?token=${verificationToken.token}`);
 }
 
 export const createPost = async(post: string, userId: string) => {
