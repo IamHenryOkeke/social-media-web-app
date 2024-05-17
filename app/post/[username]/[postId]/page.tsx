@@ -66,7 +66,7 @@ export default async function page({ params }: { params: { username: string, pos
           <section className='my-5 border-y-2 border-gray-600 divide-y-2 divide-gray-600'>
             {
               comments?.map((comment) => (
-                <CommentCard key={comment.id} id={comment.id} content={comment.content} name={comment.author.name} image={comment.author.image} username={comment.author.username} />
+                <CommentCard key={comment.id} content={comment.content} name={comment.author.name} image={comment.author.image} username={comment.author.username} />
               ))
             }
           </section> : user ?
