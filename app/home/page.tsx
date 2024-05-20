@@ -19,11 +19,15 @@ export default async function Home() {
   return (
     <main className='md:border-x-2 border-gray-600 mx-auto md:w-3/5 lg:w-2/5 py-3'>
       <nav className='px-4 flex items-center justify-between'>
-        <div className='w-10 h-10'>
+        <div className='w-10 h-10 flex items-center'>
           {
-            user && <Link href={`/profile/${userDetail?.username}`}>
-              <Image src={user?.user?.image} alt='Profile Picture' width={300} height={180} className='w-10 h-10 rounded-full' />
-            </Link>
+            user ?
+              <Link href={`/profile/${userDetail?.username}`}>
+                <Image src={user?.user?.image} alt='Profile Picture' width={300} height={180} className='w-10 h-10 rounded-full' />
+              </Link> :
+              <Link href='/login'>
+                Login
+              </Link>
           }
         </div>
         <h3 className='font-bold text-lg'>

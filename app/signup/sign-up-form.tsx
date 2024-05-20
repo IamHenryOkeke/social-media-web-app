@@ -2,9 +2,13 @@
 
 import { signUp } from "../lib/actions"
 import { useFormState, useFormStatus } from "react-dom"
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useState } from "react";
 
 export function SignupForm() {
   const [state, action] = useFormState(signUp, undefined)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+
   return (
     <form action={action} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
       <div className="w-full flex flex-col items-center gap-2">
@@ -31,9 +35,12 @@ export function SignupForm() {
       </div>
       {state?.errors?.email && <p className="text-red-500 self-start">{state.errors.email}</p>}
 
-      <div className="w-full flex flex-col items-center gap-2">
+      <div className="relative w-full flex flex-col items-center gap-2">
         <label className="self-start font-semibold" htmlFor="password">Password</label>
-        <input className="border border-gray-500 bg-transparent focus:outline-none w-full p-3 rounded-md" id="password" name="password" type="password" placeholder="Enter a password" />
+        <input className="border border-gray-500 bg-transparent focus:outline-none w-full p-3 rounded-md" id="password" name="password" type={showPassword ? "text" : "password"} placeholder="Enter a password" />
+        {
+          showPassword ? <EyeIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/> : <EyeSlashIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/>
+        }
       </div>
 
       {state?.errors?.password && <p className="text-red-500 self-start">{state.errors.password}</p>}
