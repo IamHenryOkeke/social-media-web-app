@@ -11,7 +11,6 @@ export default function InteractionSection({ liked, userId, postId }: { liked?: 
 
   const handleOnClick = async () => {
     const data = await toggleLikePost(userId, postId)
-    console.log(data)
     if (data) {
       router.refresh()
     } else {

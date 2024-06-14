@@ -19,6 +19,23 @@ export const getUserByUsername = async(username: string) => {
     const user = await db.user.findFirst({
       where: {
         username: username
+      },
+      include: {
+        following: true,
+        followers: {
+          include: {
+            follower: true
+          }
+        },
+        posts: {
+          include: {
+            author: true,
+            likes: true
+          },
+          orderBy: {
+            createdAt: 'desc'
+          }
+        }
       }
     })
     return user;
@@ -95,29 +112,6 @@ export const getLikesByPostId = async(id: string) => {
       },
       orderBy: {
         createdAt:'desc'
-      }
-    })
-    return data;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    return null
-  }
-}
-
-export const getUserPost = async(username: string) => {
-  try {
-    const data = await db.post.findMany({
-      where: {
-        author: {
-          username: username
-        }
-      },
-      include: {
-        author: true,
-        likes: true
-      },
-      orderBy: {
-        createdAt: 'desc'
       }
     })
     return data;

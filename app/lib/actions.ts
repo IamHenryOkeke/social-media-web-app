@@ -157,7 +157,7 @@ export const deletePost = async(postId: string) => {
     const transaction = await db.$transaction([deleteLikes,deleteComments, deletePost])
     return transaction;
   } catch (error) {
-    console.error('Failed to send post', error);
+    console.error('Failed to delete post', error);
   }
 }
 
@@ -210,6 +210,34 @@ export const toggleLikePost = async(userId: string, postId: string) => {
   }
 }
 
+
+export const followUser = async (followerId: string, followingId: string) => {
+  try {
+    const data = await db.follow.create({
+      data: {
+        followerId,
+        followingId,
+      },
+    });
+    return data
+  } catch (error) {
+    console.error('Failed to follow user', error);
+  }
+}
+
+export const unfollowUser = async(followerId: string, followingId: string) => {
+  try {
+    const data = await db.follow.deleteMany({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+    return data
+  } catch (error) {
+    console.error('Failed to unfollow user', error);
+  }
+}
  
 type UpdateDataFormState =
   | {

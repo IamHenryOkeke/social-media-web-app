@@ -20,6 +20,8 @@ model User {
   posts        Post[]
   comments     Comment[]
   Like         Like[]
+  followers    Follow[]  @relation("followers")
+  following    Follow[]  @relation("following")
 }
 
 model VerificationToken {
@@ -58,4 +60,13 @@ model Like {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   post      Post     @relation(fields: [postId], references: [id])
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  follower    User     @relation("following", fields: [followerId], references: [id])
+  followerId  String
+  following   User     @relation("followers", fields: [followingId], references: [id])
+  followingId String
+  createdAt   DateTime @default(now())
 }
