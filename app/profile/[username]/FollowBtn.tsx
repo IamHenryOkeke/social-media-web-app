@@ -6,7 +6,6 @@ import toast from "react-hot-toast"
 
 export default function FollowBtn({ isFollowing, userId, targetId }: { isFollowing: any, userId: string, targetId: string }) {
   const router = useRouter()
-  console.log(isFollowing, userId, targetId)
 
   const handleFollow = async () => {
     const data = await followUser(userId, targetId)
@@ -26,6 +25,10 @@ export default function FollowBtn({ isFollowing, userId, targetId }: { isFollowi
     } else {
       toast.error("Action not successful")
     }
+  }
+
+  if (!userId) {
+    return null
   }
   
   return (
