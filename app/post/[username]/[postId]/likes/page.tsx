@@ -1,10 +1,9 @@
 import { Metadata } from "next"
 import { getLikesByPostId } from '@/app/lib/data';
 import PreviousPageButton from '@/app/ui/PreviousPageButton';
-import React from 'react'
-import LikeCard from './LikeCard';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import UserCard from "@/app/ui/UserCard";
 
 export const metadata: Metadata = {
   title: "Users who liked this post",
@@ -27,7 +26,7 @@ export default async function page({ params }: { params: { username: string, pos
             <section className='my-5 border-y-2 border-gray-600 divide-y-2 divide-gray-600'>
               {
                 likes?.map((like) => (
-                  <LikeCard key={like.id} name={like.user.name} image={like.user.image} username={like.user.username} />
+                  <UserCard key={like.id} name={like.user.name} image={like.user.image} username={like.user.username} />
                 ))
               }
             </section> : user ?

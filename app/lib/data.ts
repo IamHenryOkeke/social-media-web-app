@@ -121,3 +121,42 @@ export const getLikesByPostId = async(id: string) => {
   }
 }
 
+export const getFollowers = async(username: string) => {
+  try {
+    const data = await db.follow.findMany({
+      where: {
+        following: {
+          username: username
+        }
+      },
+      include: {
+        follower: true
+      }
+    })
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch followers', error);
+    return null
+  }
+}
+
+
+export const getFollowings = async(username: string) => {
+  try {
+    const data = await db.follow.findMany({
+      where: {
+        follower: {
+          username: username
+        }
+      },
+      include: {
+        following: true
+      }
+    })
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch followings', error);
+    return null
+  }
+}
+

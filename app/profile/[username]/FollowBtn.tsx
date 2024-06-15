@@ -27,6 +27,7 @@ export default function FollowBtn({ isFollowing, userId, targetId }: { isFollowi
       toast.error("Action not successful")
     }
   }
+  
   return (
     <button onClick={isFollowing ? handleUnfollow : handleFollow} className="bg-gray-500 px-5 py-1 rounded-md font-medium text-sm">
       {

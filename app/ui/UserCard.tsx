@@ -1,13 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
 
-type PostCardType = {
+type UserCardType = {
   name: string,
   username: string,
   image: any
 }
 
-export default function LikeCard({ image, name, username }: PostCardType) {
+export default function UserCard({ image, name, username }: UserCardType) {
   return (
     <div className='p-4 flex gap-2'>
       <div className='w-[15%]'>

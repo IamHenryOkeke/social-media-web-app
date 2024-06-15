@@ -46,7 +46,6 @@ export default async function Home() {
           }
         </div> : <p>Unable to fetch post. Please refresh page</p>
       }
-
     </main>
   )
 }

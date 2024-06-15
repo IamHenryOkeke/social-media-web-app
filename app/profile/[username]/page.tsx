@@ -56,9 +56,9 @@ export default async function Profile({ params }: { params: { username: string }
               </form>
             </div> : <FollowBtn userId={user?.user?.id || ""} targetId={userData?.id || ''} isFollowing={userData?.followers.find((follower) => follower.followerId === user?.user?.id)} />
         }
-        <div className='flex gap-3'>
-          <p className='text-gray-400'><span className='font-semibold text-white'>{userData?.followers.length}</span> followers</p>
-          <p className='text-gray-400'><span className='font-semibold text-white'>{userData?.following.length}</span> followings</p>
+        <div className='flex gap-5'>
+          <Link href={`/profile/${params.username}/followers`} className='text-gray-400'><span className='font-semibold text-white'>{userData?.followers.length}</span> followers</Link>
+          <Link href={`/profile/${params.username}/followings`} className='text-gray-400'><span className='font-semibold text-white'>{userData?.following.length}</span> followings</Link>
         </div>
       </div>
       <div className='py-5'>
