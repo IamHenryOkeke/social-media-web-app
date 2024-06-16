@@ -5,7 +5,7 @@ import UserCard from "@/app/ui/UserCard";
 
 export function generateMetadata({ params }: { params: { username: string } }): Metadata {
   return {
-    title: `People who ${params.username} follow`,
+    title: `People who ${params.username} follows`,
   }
 }
 
@@ -33,7 +33,7 @@ export default async function page({ params }: { params: { username: string } })
               <h2 className="lg:text-3xl font-bold">
                 @{params.username} isn&apos;t following anyone
               </h2>
-              <p>Once they follow accounts, they&apos;ll show up here.</p>
+              <p>Once they follow any account, they&apos;ll show up here.</p>
             </div>
         }
       </div>
