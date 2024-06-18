@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [state, dispatch] = useFormState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false)
   return (
     <form action={dispatch} className="mx-auto w-[90%] flex flex-col items-center justify-center gap-2">
@@ -27,8 +27,8 @@ export default function LoginForm() {
         Forgot Password
       </Link>
       <LoginButton />
-      {errorMessage?.error && <p className="text-sm text-red-500 my-2">{errorMessage.error}</p>}
-      {errorMessage?.success && <p className="text-sm text-green-500 my-2">{errorMessage.success}</p>}
+      {state?.error && <p className="text-sm text-red-500 my-2">{state.error}</p>}
+      {state?.success && <p className="text-sm text-green-500 my-2">{state.success}</p>}
     </form>
   );
 }

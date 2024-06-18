@@ -14,7 +14,7 @@ import { sendMail } from './nodemailer';
 
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://social-media-web-app-ten.vercel.app/'
 
-export async function authenticate(prevState: string | undefined,formData: FormData,) {
+export async function authenticate(prevState: any,formData: FormData,) {
   const email: any =  formData.get('email')
   const password =  formData.get('password')
 
