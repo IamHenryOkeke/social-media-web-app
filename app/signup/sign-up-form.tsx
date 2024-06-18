@@ -39,13 +39,15 @@ export function SignupForm() {
         <label className="self-start font-semibold" htmlFor="password">Password</label>
         <input className="border border-gray-500 bg-transparent focus:outline-none w-full p-3 rounded-md" id="password" name="password" type={showPassword ? "text" : "password"} placeholder="Enter a password" />
         {
-          showPassword ? <EyeIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/> : <EyeSlashIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/>
+          showPassword ? <EyeIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)} /> : <EyeSlashIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)} />
         }
       </div>
 
       {state?.errors?.password && <p className="text-red-500 self-start">{state.errors.password}</p>}
       <SignupButton />
       {state?.error && <p className="text-red-500 self-start">{state?.error}</p>}
+      {state?.message && <p className="text-red-500 self-start">{state?.message}</p>}
+      {state?.success && <p className="text-green-500 self-start">{state?.success}</p>}
     </form>
   )
 }

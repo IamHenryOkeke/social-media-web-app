@@ -123,6 +123,9 @@ export async function signUp (state: FormState, formData: FormData) {
   }
   const verificationToken = await generateVerificationToken(user.email)
   await sendMail(user.name, user.email, `<a href="${baseUrl}forgot-password/verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
+  return {
+    success: 'You successfully created your account. Check your mail to verify your account',
+  }
 }
 
 export const createPost = async(post: string, userId: string) => {
