@@ -35,8 +35,8 @@ export default function ResetPasswordForm() {
     }
 
     try {
-      const res = await resetPasswordWithToken(token, password)
-      toast.success(res)
+      const res: any = await resetPasswordWithToken(token, password)
+      toast.success(res.success)
       router.push('/login')
     } catch (error: any) {
       toast.error(error.message)

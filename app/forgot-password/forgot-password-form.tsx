@@ -15,6 +15,7 @@ export default function ForgotPasswordForm() {
       {state?.errors?.email && <p className="text-sm text-red-500 self-start">{state.errors.email}</p>}
       <ResetButton />
       {state?.error && <p className="text-red-500">{state?.error}</p>}
+      {state?.success && <p className="text-green-500">{state?.success}</p>}
     </form>
   );
 }

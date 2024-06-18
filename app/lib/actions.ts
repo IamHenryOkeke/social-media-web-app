@@ -10,6 +10,9 @@ import { revalidatePath } from 'next/cache';
 import { SendResetEmailSchema, SignupFormSchema, UpdateDataFormSchema } from './zod-schema';
 import { generateVerificationToken } from './tokens';
 import { getVerificationTokenByToken } from './verification-token';
+import { sendMail } from './nodemailer';
+
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://social-media-web-app-ten.vercel.app/'
 
 export async function authenticate(prevState: string | undefined,formData: FormData,) {
   const email: any =  formData.get('email')
@@ -18,13 +21,13 @@ export async function authenticate(prevState: string | undefined,formData: FormD
   const existingUser = await getUserByEmail(email.toLowerCase())
   
   if (!existingUser) {
-    return "Email does not exist"
+    return {error : "Email does not exist"}
   }
 
   if(!existingUser.emailVerifed) {
     const verificationToken = await generateVerificationToken(existingUser.email)
-    // await sendVerification(verificationToken.email, verificationToken.token)
-    redirect(`/verify?token=${verificationToken.token}`);
+    await sendMail(existingUser.name, existingUser.email, `<a href="${baseUrl}forgot-password/verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
+    return {success: "Please check your mail to verify your account"}
   }
 
   try {
@@ -32,13 +35,14 @@ export async function authenticate(prevState: string | undefined,formData: FormD
       email,
       password,
     });
+    return {success: "Login successful"}
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return 'Invalid credentials.';
+          return {error : 'Invalid credentials.'};
         default:
-          return 'Something went wrong.';
+          return {error : 'Something went wrong.'};
       }
     }
     throw error;
@@ -118,7 +122,7 @@ export async function signUp (state: FormState, formData: FormData) {
     }
   }
   const verificationToken = await generateVerificationToken(user.email)
-  redirect(`/verify?token=${verificationToken.token}`);
+  await sendMail(user.name, user.email, `<a href="${baseUrl}forgot-password/verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
 }
 
 export const createPost = async(post: string, userId: string) => {
@@ -360,7 +364,10 @@ export async function sendResetMail (state: ResetPasswordFormState, formData: Fo
   }
 
   const verificationToken = await generateVerificationToken(existingUser.email)
-  redirect(`/forgot-password/reset?token=${verificationToken.token}`);
+  await sendMail(existingUser.name, existingUser.email, `<a href="${baseUrl}forgot-password/reset?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
+  return {
+    success : "Please check your mail to reset your password"
+  }
 }
 
 export const resetPasswordWithToken = async(token: string, password: string) => {
@@ -393,5 +400,7 @@ export const resetPasswordWithToken = async(token: string, password: string) => 
     }
   })
 
-  return 'Password reset successful'
+  return {
+    success: 'Password reset successful'
+  }
 }

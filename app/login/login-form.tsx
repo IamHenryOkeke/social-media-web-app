@@ -20,18 +20,15 @@ export default function LoginForm() {
         <label className="self-start font-semibold" htmlFor="password">Password</label>
         <input className="w-full border border-gray-500 bg-transparent focus:outline-none p-3 rounded-md" id="password" name="password" type={showPassword ? "text" : "password"} placeholder="Enter your password" />
         {
-          showPassword ? <EyeIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/> : <EyeSlashIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)}/>
+          showPassword ? <EyeIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)} /> : <EyeSlashIcon className='cursor-pointer absolute h-5 w-5 bottom-4 right-3' onClick={() => setShowPassword(!showPassword)} />
         }
       </div>
       <Link href='/forgot-password' className='self-end text-sm pt-1'>
         Forgot Password
       </Link>
       <LoginButton />
-      {errorMessage && (
-        <>
-          <p className="text-sm text-red-500 my-2">{errorMessage}</p>
-        </>
-      )}
+      {errorMessage?.error && <p className="text-sm text-red-500 my-2">{errorMessage.error}</p>}
+      {errorMessage?.success && <p className="text-sm text-green-500 my-2">{errorMessage.success}</p>}
     </form>
   );
 }
