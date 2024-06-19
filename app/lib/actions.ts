@@ -26,7 +26,7 @@ export async function authenticate(prevState: any,formData: FormData,) {
 
   if(!existingUser.emailVerifed) {
     const verificationToken = await generateVerificationToken(existingUser.email)
-    await sendMail(existingUser.name, existingUser.email, `<a href="${baseUrl}verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
+    await sendMail(existingUser.name, existingUser.email, `<a href="${baseUrl}verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to verify your account</a>`)
     return {success: "Please check your mail to verify your account"}
   }
 
@@ -122,7 +122,7 @@ export async function signUp (state: FormState, formData: FormData) {
     }
   }
   const verificationToken = await generateVerificationToken(user.email)
-  await sendMail(user.name, user.email, `<a href="${baseUrl}verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to reset your password</a>`)
+  await sendMail(user.name, user.email, `<a href="${baseUrl}verify?token=${verificationToken.token}" target="_blank" rel="noopener noreferrer">Click to verify your account</a>`)
   return {
     success: 'You successfully created your account. Check your mail to verify your account',
   }
